@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  server:
+    build: ./server
+    container_name: pharmacy_server
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb+srv://user:pass@cluster/db
+    depends_on:
+      - mongo
+
+  client:
+    build: ./client
+    container_name: pharmacy_client
+    ports:
+      - "3000:80"
+
+  mongo:
+    image: mongo
+    container_name: pharmacy_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
